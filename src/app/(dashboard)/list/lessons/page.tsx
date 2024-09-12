@@ -1,14 +1,15 @@
 import Pagination from "@/components/Pagination"
 import Table from "@/components/Table"
 import TableSearch from "@/components/TableSearch"
-import { role, subjectsData } from "@/lib/data"
+import { lessonsData, role } from "@/lib/data"
 import Image from "next/image"
 import Link from "next/link"
 
-type Subject = {
+type Lesson = {
   id: number;
-  name: string;
-  teachers: string[];
+  subject: string;
+  class: string;
+  teacher: string;
 }
 
 const columns = [
@@ -17,8 +18,12 @@ const columns = [
     accessor:"name",
   },
   {
-    header:"Teachers",
-    accessor:"teachers",
+    header:"Class",
+    accessor:"class",
+  },
+  {
+    header:"Teacher",
+    accessor:"teacher",
     className:"hidden md:table-cell",
   },
   {
@@ -27,15 +32,18 @@ const columns = [
   },
 ]
 
-const SubjectListPage = () => {
+const LessonListPage = () => {
 
-  const renderRow = (item:Subject) => (
+  const renderRow = (item:Lesson) => (
     <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-dashboardPurpleLight">
       <td className="flex items-center gap-4 p-4">
-        {item.name}
+        {item.subject}
+      </td>
+      <td>
+        {item.class}
       </td>
       <td className="hidden md:table-cell">
-        {item.teachers.join(", ")}
+        {item.teacher}
       </td>
       <td>
         <div className="flex items-center gap-2">
@@ -59,7 +67,7 @@ const SubjectListPage = () => {
       {/* top */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">
-          All Subjects
+          All Lessons
         </h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch/>
@@ -79,11 +87,11 @@ const SubjectListPage = () => {
         </div>
       </div>
       {/* list */}
-      <Table columns={columns} renderRow={renderRow} data={subjectsData}/>
+      <Table columns={columns} renderRow={renderRow} data={lessonsData}/>
       {/* pagination */}
       <Pagination/>
     </div>
   )
 }
 
-export default SubjectListPage
+export default LessonListPage
